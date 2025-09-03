@@ -1,110 +1,100 @@
 #include <Servo.h>
 
-// Servo objects
-Servo servoBase, servoShoulder, servoElbow, servoClaw;
+Servo baseServo;
+Servo shoulderServo;
 
-// Potentiometer pins
-const int potBase = A0;
-const int potShoulder = A1;
-const int potElbow = A2;
-const int potClaw = A3;
+const int joyX = A0;    
+const int joyY = A1;    
+const int joyBtn = 2;   
+const int playBtn = 3; 
 
-// Button pins
-const int btnRecord = 4;
-const int btnPlay   = 5;
+const int baseServoPin = 9;
+const int shoulderServoPin = 10;
 
-// Servo control pins
-const int servoBasePin = 9;
-const int servoShoulderPin = 10;
-const int servoElbowPin = 11;
-const int servoClawPin = 12;
+const int MAX_STEPS = 200;
+int basePos[MAX_STEPS];
+int shoulderPos[MAX_STEPS];
+int stepCount = 0;
 
-// Variables
-int posBase, posShoulder, posElbow, posClaw;
+// State
+bool recording = false;
+bool lastJoyBtnState = HIGH;
 
-// Recording
-const int maxRecords = 1000;
-int recordData[maxRecords][4];
-int recordIndex = 0;
-bool isRecording = false;
-bool isPlaying = false;
+// Last Position
+int currentBase = 90;
+int currentShoulder = 90;
+
+// smooth
+void smoothMove(Servo &servo, int &currentPos, int target, int stepDelay) {
+  if (target > currentPos) {
+    for (int pos = currentPos; pos <= target; pos++) {
+      servo.write(pos);
+      delay(stepDelay);
+    }
+  } else if (target < currentPos) {
+    for (int pos = currentPos; pos >= target; pos--) {
+      servo.write(pos);
+      delay(stepDelay);
+    }
+  }
+  currentPos = target;
+}
 
 void setup() {
-  servoBase.attach(servoBasePin);
-  servoShoulder.attach(servoShoulderPin);
-  servoElbow.attach(servoElbowPin);
-  servoClaw.attach(servoClawPin);
+  baseServo.attach(baseServoPin);
+  shoulderServo.attach(shoulderServoPin);
 
-  pinMode(btnRecord, INPUT_PULLUP);
-  pinMode(btnPlay, INPUT_PULLUP);
+  pinMode(joyBtn, INPUT_PULLUP);
+  pinMode(playBtn, INPUT_PULLUP);
 
   Serial.begin(9600);
+  Serial.println("System ready with smooth motion.");
 }
 
 void loop() {
-  if (digitalRead(btnRecord) == LOW) {
-    Serial.println("Recording started!");
-    delay(300);  // Debounce
-    isRecording = true;
-    isPlaying = false;
-    recordIndex = 0;
+  // --- Joystick input ---
+  int joyValX = analogRead(joyX);
+  int joyValY = analogRead(joyY);
+
+  // Mapping
+  int targetBase = map(joyValX, 0, 1023, 0, 180);
+  int targetShoulder = map(joyValY, 0, 1023, 0, 180);
+
+  // Smooth
+  smoothMove(baseServo, currentBase, targetBase, 2);
+  smoothMove(shoulderServo, currentShoulder, targetShoulder, 2);
+
+  // Record Toogle
+  bool joyBtnState = digitalRead(joyBtn);
+  if (joyBtnState == HIGH && lastJoyBtnState == LOW) {
+    recording = !recording;
+    if (recording) {
+      stepCount = 0;
+      Serial.println("Recording started...");
+    } else {
+      Serial.print("Recording stopped. Steps saved: ");
+      Serial.println(stepCount);
+    }
+    delay(300); // debounce
+  }
+  lastJoyBtnState = joyBtnState;
+
+  // Record
+  if (recording && stepCount < MAX_STEPS) {
+    basePos[stepCount] = targetBase;
+    shoulderPos[stepCount] = targetShoulder;
+    stepCount++;
+    delay(100);
   }
 
-  if (digitalRead(btnPlay) == LOW) {
-    Serial.println("Playback started!");
-    delay(300);  // Debounce
-    isPlaying = true;
-    isRecording = false;
-    recordIndex = 0;
-  }
-
-  if (isRecording) {
-    recordMovement();
-  } else if (isPlaying) {
-    playMovement();
-  } else {
-    manualControl();
-  }
-}
-
-void manualControl() {
-  posBase = map(analogRead(potBase), 0, 1023, 0, 180);
-  posShoulder = map(analogRead(potShoulder), 0, 1023, 0, 180);
-  posElbow = map(analogRead(potElbow), 0, 1023, 0, 180);
-  posClaw = map(analogRead(potClaw), 0, 1023, 0, 180);
-
-  servoBase.write(posBase);
-  servoShoulder.write(posShoulder);
-  servoElbow.write(posElbow);
-  servoClaw.write(posClaw);
-}
-
-void recordMovement() {
-  if (recordIndex < maxRecords) {
-    recordData[recordIndex][0] = map(analogRead(potBase), 0, 1023, 0, 180);
-    recordData[recordIndex][1] = map(analogRead(potShoulder), 0, 1023, 0, 180);
-    recordData[recordIndex][2] = map(analogRead(potElbow), 0, 1023, 0, 180);
-    recordData[recordIndex][3] = map(analogRead(potClaw), 0, 1023, 0, 180);
-
-    recordIndex++;
-    delay(100); 
-  } else {
-    Serial.println("Recording complete.");
-    isRecording = false;
-  }
-}
-
-void playMovement() {
-  if (recordIndex < maxRecords && recordData[recordIndex][0] != -1) {
-    servoBase.write(recordData[recordIndex][0]);
-    servoShoulder.write(recordData[recordIndex][1]);
-    servoElbow.write(recordData[recordIndex][2]);
-    servoClaw.write(recordData[recordIndex][3]);
-
-    recordIndex++;
-    delay(100); 
-  } else {
-    Serial.println("Playback complete.");
-    isPlaying = false;
+  // Playback
+  if (digitalRead(playBtn) == LOW && stepCount > 0) {
+    recording = false;
+    Serial.println("Playing back smoothly...");
+    for (int i = 1; i < stepCount; i++) {
+      smoothMove(baseServo, currentBase, basePos[i], 5);     
+      smoothMove(shoulderServo, currentShoulder, shoulderPos[i], 5);
+    }
+    Serial.println("Playback finished.");
   }
 }
