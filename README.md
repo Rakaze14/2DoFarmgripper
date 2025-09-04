@@ -1,6 +1,6 @@
 # 2DoFarmgripper  
 
-Practical Work Assignment 2025/2026 — UGMURO 
+Praktikum Robotika 2025/2026 — UGMURO 
 
 A **2-DOF robot arm** project with record & playback functionality.  
 Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based control using LittleFS).  
@@ -56,7 +56,7 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 ### Arduino Uno
 1. Install [Arduino IDE](https://www.arduino.cc/en/software)  
 2. Select **Arduino Uno** board  
-3. Upload the Arduino sketch (`uno_2dof.ino`)  
+3. Upload the Arduino sketch [(`basicrecordplay.ino`)](https://github.com/Rakaze14/2DoFarmgripper/blob/main/basicrecordplay.ino)  
 4. Connect joystick + buttons + servos as per pinout  
 
 ### ESP32 (Web Control with LittleFS)
@@ -65,9 +65,9 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 3. Install **ESP32 LittleFS plugin**:  
    - [LittleFS plugin installation guide](https://github.com/lorol/arduino-esp32fs-plugin)  
 4. Create `data/` folder in sketch directory  
-5. Place `index.html` inside `data/`  
+5. Place [`index.html`](https://github.com/Rakaze14/2DoFarmgripper/blob/main/data/index.html) inside `data/`  
 6. Upload filesystem (Tools → ESP32 Data Upload)  
-7. Upload the Arduino sketch (`esp32_2dof.ino`)  
+7. Upload the Arduino sketch [(`webcontrol.ino`)](https://github.com/Rakaze14/2DoFarmgripper/blob/main/webcontrol.ino)  
 8. Open Serial Monitor to find ESP32 IP  
 9. Access ESP32 IP in browser → control robot arm via sliders 🚀  
 
