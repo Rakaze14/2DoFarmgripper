@@ -56,7 +56,7 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 ### Arduino Uno
 1. Install [Arduino IDE](https://www.arduino.cc/en/software)  
 2. Select **Arduino Uno** board  
-3. Upload the Arduino sketch [(`basicrecordplay.ino`)](https://github.com/Rakaze14/2DoFarmgripper/blob/main/basicrecordplay.ino)  
+3. Upload the Arduino sketch [`basicrecordplay.ino`](https://github.com/Rakaze14/2DoFarmgripper/blob/main/basicrecordplay.ino)  
 4. Connect joystick + buttons + servos as per pinout  
 
 ### ESP32 (Web Control with LittleFS)
@@ -67,7 +67,7 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 4. Create `data/` folder in sketch directory  
 5. Place [`index.html`](https://github.com/Rakaze14/2DoFarmgripper/blob/main/data/index.html) inside `data/`  
 6. Upload filesystem (Tools → ESP32 Data Upload)  
-7. Upload the Arduino sketch [(`webcontrol.ino`)](https://github.com/Rakaze14/2DoFarmgripper/blob/main/webcontrol.ino)  
+7. Upload the Arduino sketch [`webcontrol.ino`](https://github.com/Rakaze14/2DoFarmgripper/blob/main/webcontrol.ino)  
 8. Open Serial Monitor to find ESP32 IP  
 9. Access ESP32 IP in browser → control robot arm via sliders 🚀  
 
