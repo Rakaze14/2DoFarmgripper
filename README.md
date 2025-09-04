@@ -1,22 +1,23 @@
 # 2DoFarmgripper  
 
-Practical Work Assignment 2025/2026 — UGMURO
+Practical Work Assignment 2025/2026 — UGMURO ---
+
 A **2-DOF robot arm** project with record & playback functionality.  
 Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based control using LittleFS).  
 
 ---
 
-## 🔹 Features
+## 🔹 Control
 - **2 Degrees of Freedom (DOF):**
   - Base rotation  
   - Shoulder movement  
 - **Joystick control** (Arduino Uno)  
-- **Record & Playback** system:
+- [**Record & Playback**](https://github.com/Rakaze14/2DoFarmgripper/blob/main/basicrecordplay.ino) system:
   - Press joystick button → start/stop recording  
   - Press Play button → replay saved motion  
-- **Web control (ESP32 only):**
+- [**Web control (ESP32 only)](https://github.com/Rakaze14/2DoFarmgripper/blob/main/webcontrol.ino):**
   - Slider-based interface via Wi-Fi  
-  - HTML interface hosted with LittleFS  
+  - [HTML](https://github.com/Rakaze14/2DoFarmgripper/blob/main/data/index.html) interface hosted with LittleFS  
 
 ---
 
