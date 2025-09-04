@@ -10,7 +10,7 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 - **2 Degrees of Freedom (DOF):**
   - Base rotation  
   - Shoulder movement  
-- **Joystick control** (Arduino Uno or ESP32)  
+- **Joystick control** (Arduino Uno)  
 - **Record & Playback** system:
   - Press joystick button → start/stop recording  
   - Press Play button → replay saved motion  
@@ -45,12 +45,8 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 ### ESP32 (with LittleFS)
 | Component          | Pin  |
 |--------------------|------|
-| Joystick X-axis    | A0   |
-| Joystick Y-axis    | A1   |
-| Joystick Button    | D2   |
-| Play Button        | D3   |
-| Servo Base         | D9   |
-| Servo Shoulder     | D10  |
+| Servo Base         | 18   |
+| Servo Shoulder     | 19   |
 
 ---
 
