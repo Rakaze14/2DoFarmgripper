@@ -21,10 +21,10 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 ---
 
 ## 🔹 Hardware Requirements
-- Arduino Uno **or** ESP32  
+- Arduino Uno **and** ESP32  
 - 2x Servo motors (Base + Shoulder)  
-- Joystick module (X, Y, Button)  
-- Push button (Play control)  
+- Joystick module (X, Y, Button) (for record & play)
+- Push button (Play control) (for record & play) 
 - External 5V power supply for servos (recommended)  
 - Breadboard & jumper wires  
 
