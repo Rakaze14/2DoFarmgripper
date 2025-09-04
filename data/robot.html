@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 Robot Arm</title>
+  <style>
+    body { font-family: Arial; text-align: center; }
+    input { width: 80%; }
+  </style>
+</head>
+<body>
+  <h2>ESP32 2DOF Robot Arm</h2>
+
+  <p>Base Servo</p>
+  <input type="range" min="0" max="180" value="90" id="baseSlider" oninput="updateServo()">
+
+  <p>Shoulder Servo</p>
+  <input type="range" min="0" max="180" value="90" id="shoulderSlider" oninput="updateServo()">
+
+  <script>
+    function updateServo() {
+      var base = document.getElementById("baseSlider").value;
+      var shoulder = document.getElementById("shoulderSlider").value;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/set?base=" + base + "&shoulder=" + shoulder, true);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
