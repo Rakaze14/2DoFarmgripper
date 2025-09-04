@@ -1,6 +1,6 @@
 # 2DoFarmgripper  
 
-Practical Work Assignment 2025/2026 — UGMURO ---
+Practical Work Assignment 2025/2026 — UGMURO 
 
 A **2-DOF robot arm** project with record & playback functionality.  
 Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based control using LittleFS).  
