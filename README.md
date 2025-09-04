@@ -43,11 +43,17 @@ Supports both **Arduino Uno** (joystick-based control) and **ESP32** (web-based 
 | Servo Base         | D9   |
 | Servo Shoulder     | D10  |
 
+![Pinout](images/arduino.jpg)
+
+
 ### ESP32 (with LittleFS)
 | Component          | Pin  |
 |--------------------|------|
 | Servo Base         | 18   |
 | Servo Shoulder     | 19   |
+
+![Pinout](images/esp32.jpg)
+
 
 ---
 
