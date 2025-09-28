@@ -48,7 +48,7 @@ void setup() {
   pinMode(playBtn, INPUT_PULLUP);
 
   Serial.begin(9600);
-  Serial.println("System ready with smooth motion.");
+  Serial.println("System Start");
 }
 
 void loop() {
@@ -90,7 +90,7 @@ void loop() {
   // Playback
   if (digitalRead(playBtn) == LOW && stepCount > 0) {
     recording = false;
-    Serial.println("Playing back smoothly...");
+    Serial.println("Playing back...");
     for (int i = 1; i < stepCount; i++) {
       smoothMove(baseServo, currentBase, basePos[i], 5);     
       smoothMove(shoulderServo, currentShoulder, shoulderPos[i], 5);
